@@ -1,5 +1,7 @@
-## 3030: Esqueci de Liberar
-Jogo em Python. Projeto CES-22, ITA 2022
+# 3030: Esqueci de Liberar
+> Jogo em Python
+
+Projeto CES-22, ITA 2022
 
 ### Alunos:
 <!--ts-->
@@ -9,5 +11,15 @@ Jogo em Python. Projeto CES-22, ITA 2022
 <!--te-->
 
 
-## Instruções para Instalação:
+## Como rodar a aplicação:
+No terminal, clone o projeto: 
+```
+git clone https://github.com/macieeel/jogoCES22
+```
+Entre na pasta do projeto:
+```
+cd jogoCES22
+```
+
+...
 
