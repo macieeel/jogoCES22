@@ -23,3 +23,21 @@ cd jogoCES22
 
 ...
 
+## Comandos básicos do git:
+Após ter o repositório clonado, no terminal da pasta do projeto, você pode rodar os comandos:
+
+Para atualizar seu repositório local:
+```
+git push
+```
+Para enviar um novo arquivo ao repositório remoto:
+> A mensagem de commit é obrigatória
+```
+git add <filename>
+git commit -m "Sua mensagem de commit"
+git push
+```
+
+Para criar uma nova branch:
+
+
