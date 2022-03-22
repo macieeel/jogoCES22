@@ -14,7 +14,7 @@ Projeto CES-22, ITA 2022
 ## Como rodar a aplicação:
 No terminal, clone o projeto: 
 ```
-git clone https://github.com/macieeel/jogoCES22
+git clone https://github.com/macieeel/jogoCES22.git
 ```
 Entre na pasta do projeto:
 ```
