@@ -7,8 +7,10 @@ from utils import scale_image, blit_rotate_center
 GRASS = scale_image(pygame.image.load("imgs/grass.jpg"), 2.5)
 TRACK = scale_image(pygame.image.load("imgs/track.png"), 0.9)
 TRACK_BORDER = scale_image(pygame.image.load("imgs/track-border.png"), 0.9)
+# CTA = pygame.image.load("imgs/MapaCasas1.png")
 FINISH = pygame.image.load("imgs/finish.png")
-RED_CAR = scale_image(pygame.image.load("imgs/red-car.png"), 0.55)
+IFOOD = scale_image(pygame.image.load("imgs/moto_v2.png"), 0.25)
+# RED_CAR = scale_image(pygame.image.load("imgs/red-car.png"), 0.70)
 
 WIDTH, HEIGHT = TRACK.get_width(), TRACK.get_height()
 
@@ -35,8 +37,8 @@ class CameraGroup(pygame.sprite.Group):
         self.camera_rect = pygame.Rect(l, t, w, h)
 
         # ground
-        self.ground_surf = pygame.image.load(
-            'graphics/ground.png').convert_alpha()
+        self.ground_surf = scale_image(pygame.image.load(
+            'imgs/MapaCasas1.png').convert_alpha(), 1.9)
         self.ground_rect = self.ground_surf.get_rect(topleft=(0, 0))
 
     def center_target_camera(self, target):
@@ -61,20 +63,19 @@ class CameraGroup(pygame.sprite.Group):
 
         # player.draw(screen)
 
-        self.box_target_camera(player)
-        # self.center_target_camera(player)d
+        # self.box_target_camera(player)
+        self.center_target_camera(player)
         # ground
         ground_offset = self.ground_rect.topleft - self.offset
         self.display_surface.blit(self.ground_surf, ground_offset)
 
         # active elements
-        for sprite in sorted(self.sprites(), key=lambda sprite: sprite.rect.centery):
-            offset_pos = sprite.rect.topleft - self.offset
-            blit_rotate_center(self.display_surface, sprite.image,
-                               (sprite.x, sprite.y), sprite.angle, offset_pos)
+        # for sprite in sorted(self.sprites(), key=lambda sprite: sprite.rect.centery):
+        #     offset_pos = sprite.rect.topleft - self.offset
+        #     blit_rotate_center(self.display_surface, sprite.image, (sprite.x, sprite.y), sprite.angle, offset_pos)
             # self.display_surface.blit(sprite.image, offset_pos)
 
-        # player_vehicle.draw(self.display_surface)
+        player_vehicle.draw(self.display_surface)
 
 
 class AbstractVehicle(pygame.sprite.Sprite):
@@ -88,12 +89,14 @@ class AbstractVehicle(pygame.sprite.Sprite):
         self.acceleration = 0.05
         self.image = self.IMG
         self.rect = self.image.get_rect(center=(self.x, self.y))
+        self.screen = pygame.display.get_surface()
 
-    def rotate(self, left=False, right=False):
+    def rotate(self, win, left=False, right=False):
         if left:
             self.angle += self.rotation_speed
         elif right:
             self.angle -= self.rotation_speed
+        #blit_rotate_center(win, self.image, (self.x, self.y), self.angle)
 
     def draw(self, win):
         blit_rotate_center(win, self.image, (self.x, self.y), self.angle)
@@ -103,7 +106,8 @@ class AbstractVehicle(pygame.sprite.Sprite):
         self.move()
 
     def move_backward(self):
-        self.speed = max(self.speed - self.acceleration, -self.max_speed/2)
+
+        self.speed = max(self.speed - self.acceleration, -self.max_speed)
         self.move()
 
     def move(self):
@@ -114,9 +118,9 @@ class AbstractVehicle(pygame.sprite.Sprite):
 
     def reduce_speed(self):
         if self.speed > 0:
-            self.speed = max(self.speed - self.acceleration/2, 0)
+            self.speed = max(self.speed - 2 * self.acceleration, 0)
         elif self.speed < 0:
-            self.speed = min(self.speed + self.acceleration/2, 0)
+            self.speed = min(self.speed + 2 * self.acceleration, 0)
 
         self.move()
 
@@ -125,9 +129,9 @@ class AbstractVehicle(pygame.sprite.Sprite):
         moving = False
 
         if keys[pygame.K_a]:
-            self.rotate(left=True)
+            self.rotate(self.screen, left=True)
         if keys[pygame.K_d]:
-            self.rotate(right=True)
+            self.rotate(self.screen, right=True)
         if keys[pygame.K_w]:
             moving = True
             self.move_forward()
@@ -140,8 +144,8 @@ class AbstractVehicle(pygame.sprite.Sprite):
 
 
 class PlayerVehicle(AbstractVehicle):
-    IMG = RED_CAR
-    START_POS = (180, 200)
+    IMG = IFOOD
+    START_POS = (570,280)
 
 
 class Player(pygame.sprite.Sprite):
@@ -182,7 +186,7 @@ clock = pygame.time.Clock()
 images = [(GRASS, (0, 0)), (TRACK, (0, 0))]
 camera_group = CameraGroup()
 # player_vehicle = Player((640, 360), camera_group)
-player_vehicle = PlayerVehicle(4, 3, camera_group)
+player_vehicle = PlayerVehicle(14, 3, camera_group)
 
 while True:
 
