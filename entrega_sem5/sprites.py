@@ -33,9 +33,19 @@ def collide_with_grass(sprite, group):
     #list = pygame.sprite.collide_rect()
     hits = pg.sprite.spritecollide(sprite, group, False, collide_hit_rect)
     if hits:
-        sprite.player_speed = 150*2
+        sprite.player_speed = PLAYER_SPEED/2
     else:
-        sprite.player_speed = PLAYER_SPEED*2
+        sprite.player_speed = PLAYER_SPEED
+
+def collect_pizza(sprite, group):
+    l = pg.sprite.spritecollide(sprite, sprite.game.pizza, False)
+    keys = pg.key.get_pressed()
+    if keys[pg.K_SPACE]:
+        if l:
+            pg.time.wait(1000)
+            sprite.qtepizzas += 1
+            l[0].kill()
+            Pizza(sprite.game)
 
 class Player(pg.sprite.Sprite):
     def __init__(self, game, x, y):
@@ -85,10 +95,8 @@ class Player(pg.sprite.Sprite):
         collide_with_grass(self, self.game.grass)
 
         l = pg.sprite.spritecollide(self, self.game.pizza, False)
-        if l :
-            self.get_pizza()
-            l[0].kill()
-            Pizza(self.game)
+
+        collect_pizza(self, self.game.pizza)
 
 
 

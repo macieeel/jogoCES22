@@ -54,7 +54,7 @@ class Game:
                          tile_object.width, tile_object.height)
 
 
-        self.camera = Camera(self.map.width+20, self.map.height+20)
+        self.camera = Camera(self.map.width+80, self.map.height+80)
 
     def run(self):
         # game loop - set self.playing = False to end the game
@@ -72,7 +72,7 @@ class Game:
     def update(self):
         # update portion of the game loop
         self.all_sprites.update()
-        self.pizza.update()
+        #self.pizza.update()
         self.camera.update(self.player)
 
     def draw_grid(self):
@@ -86,15 +86,16 @@ class Game:
         self.draw_grid()
         self.screen.blit(self.map_img, self.camera.apply_rect(self.map_rect))
         for sprite in self.all_sprites:
-            self.screen.blit(sprite.image, self.camera.apply(sprite))
+            if not sprite == self.player:
+                self.screen.blit(sprite.image, self.camera.apply(sprite))
+
+        self.screen.blit(self.player.image, self.camera.apply(self.player))
 
         font = pg.font.Font(None, 36)
         score = font.render('Score: '+ str(self.player.qtepizzas), 1, RED)
         score_rect = score.get_rect(centerx = 100, centery = 650)
         self.screen.blit(score, score_rect)
         pg.display.flip()
-
-        print(self.player.qtepizzas)
 
     def events(self):
         # catch all events here
