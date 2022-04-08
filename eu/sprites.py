@@ -33,9 +33,9 @@ def collide_with_grass(sprite, group):
     #list = pygame.sprite.collide_rect()
     hits = pg.sprite.spritecollide(sprite, group, False, collide_hit_rect)
     if hits:
-        sprite.player_speed = 150
+        sprite.player_speed = 150*2
     else:
-        sprite.player_speed = PLAYER_SPEED
+        sprite.player_speed = PLAYER_SPEED*2
 
 class Player(pg.sprite.Sprite):
     def __init__(self, game, x, y):
@@ -79,6 +79,7 @@ class Player(pg.sprite.Sprite):
         collide_with_walls(self, self.game.walls, 'y')
         self.rect.center = self.hit_rect.center
         collide_with_grass(self, self.game.grass)
+
         l = pg.sprite.spritecollide(self, self.game.pizza, False)
         if l :
            l[0].kill()

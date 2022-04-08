@@ -41,11 +41,11 @@ class Game:
         for tile_object in self.map.tmxdata.objects:
             #if tile_object.name == 'casa':
             #   pass
-            self.player = Player(self, 400, 300)
+            #self.player = Player(self, 400, 300)
             if tile_object.name == 'player':
                 self.player = Player(self, tile_object.x, tile_object.y)
 
-            if tile_object.name == 'casa' or 'agua':
+            if tile_object.name == 'casa':
                 Obstacle(self, tile_object.x, tile_object.y,
                          tile_object.width, tile_object.height)
 
