@@ -53,9 +53,9 @@ def collide_with_grass(sprite, group, default_speed):
     # list = pygame.sprite.collide_rect()
     hits = pg.sprite.spritecollide(sprite, group, False, collide_hit_rect)
     if hits:
-        sprite.player_speed = default_speed/2
-    else:
         sprite.player_speed = default_speed
+    else:
+        sprite.player_speed = default_speed/2
 
 
 def collect_pizza(sprite):
@@ -71,7 +71,7 @@ def collect_pizza(sprite):
         l[0].kill()
         Pizza(sprite.game)
         if sprite.qtepizzas % 5 == 0:
-            PA(sprite.game, 200, 200, 200 + sprite.qtepizzas * 10)
+            PA(sprite.game, 6018, 5285 , 200 + sprite.qtepizzas * 20)
 
 
 def collide_with_PA(sprite, group):
@@ -208,14 +208,31 @@ class Grama(pg.sprite.Sprite):
 
 
 class Pizza(pg.sprite.Sprite):
+    pizza_places = []
     def __init__(self, game):
         self.groups = game.all_sprites, game.pizza
         pg.sprite.Sprite.__init__(self, self.groups)
         self.image = pg.image.load('pizza.png').convert_alpha()
         self.rect = self.image.get_rect()
-        num = random.randint(0, 6)
-        self.rect.center = PIZZA_PLACES[num]
+        num = random.randint(0, len(Pizza.pizza_places)-1)
+        self.rect.center = Pizza.pizza_places[num]
         self.game = game
 
         self.time = 0
         self.reference = 0
+
+class Flecha(pg.sprite.Sprite):
+    def __init__(self, game):
+        self.groups = game.all_sprites
+        self.game = game
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.image = game.flecha_img
+        self.rect = self.image.get_rect()
+        self.rect.center = (100,100)
+
+    def update(self):
+        rot = (vec(self.game.pizza.sprites()[0].rect.center) - self.game.player.pos).angle_to(vec(1, 0))
+        self.image = pg.transform.rotate(self.game.flecha_img, rot)
+
+
+

@@ -6,6 +6,7 @@ from sprites import *
 from tilemap import *
 
 
+
 def draw_time_bar(surf, x, y, pct):
     if pct < 0:
         pct = 0
@@ -37,13 +38,14 @@ class Game:
         game_folder = path.dirname(__file__)
         map_folder = path.join(game_folder, 'maps')
         img_folder = path.join(game_folder, 'img')
-        self.map = TiledMap(path.join(map_folder, 'MapV1.tmx'))
+        self.map = TiledMap(path.join(map_folder, 'mapav2.tmx'))
         self.map_img = self.map.make_map()
         self.map_rect = self.map_img.get_rect()
         self.player_img = pg.image.load(
             path.join(img_folder, 'moto_V2.png')).convert_alpha()
         self.PA_img = pg.image.load(
             path.join(img_folder, 'PA.png')).convert_alpha()
+        self.flecha_img = pg.image.load('flecha.png').convert_alpha()
 
     def new(self):
         # initialize all variables and do all the setup for a new game
@@ -52,23 +54,33 @@ class Game:
         self.grass = pg.sprite.Group()
         self.pizza = pg.sprite.Group()
         self.PA = pg.sprite.Group()
-        Pizza(self)
-        pa1 = PA(self, 600, 600, 200)
+
+        #pa1 = PA(self, 600, 600, 200)
         # PA(self, 500, 500)
         # PA(self, 1000, 1000)
+        #self.player = Player(self, 100,100)
 
         for tile_object in self.map.tmxdata.objects:
 
             if tile_object.name == 'player':
                 self.player = Player(self, tile_object.x, tile_object.y)
 
-            if tile_object.name == 'casa':
+            if tile_object.name == 'PA':
+                PA(self, tile_object.x, tile_object.y, 200)
+
+            if tile_object.name == 'obs':
                 Obstacle(self, tile_object.x, tile_object.y,
                          tile_object.width, tile_object.height)
 
-            if tile_object.name == 'grama':
+            if tile_object.name == 'rua':
                 Grama(self, tile_object.x, tile_object.y,
                       tile_object.width, tile_object.height)
+
+            if tile_object.name == 'pizza':
+                Pizza.pizza_places.append((tile_object.x, tile_object.y))
+
+        Pizza(self)
+        self.flecha = Flecha(self)
 
         self.camera = Camera(self.map.width+80, self.map.height+80)
 
@@ -103,11 +115,12 @@ class Game:
         self.screen.blit(self.map_img, self.camera.apply_rect(self.map_rect))
 
         for sprite in self.all_sprites:
-            if not sprite == self.player:
+            if not sprite == self.player or not self.flecha:
                 self.screen.blit(sprite.image, self.camera.apply(sprite))
 
         self.screen.blit(self.player.image, self.camera.apply(self.player))
-
+        self.screen.blit(self.flecha.image, self.flecha.rect)
+        draw_time_bar(self.screen,10,10,(100 - self.pizza.sprites()[0].time) / 100)
         font = pg.font.Font(None, 36)
         score = font.render('Score: ' + str(self.player.qtepizzas), 1, RED)
         score_rect = score.get_rect(centerx=100, centery=650)
