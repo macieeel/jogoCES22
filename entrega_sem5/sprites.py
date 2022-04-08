@@ -1,5 +1,4 @@
 import pygame as pg
-import pygame.sprite
 
 import random
 from settings import *
@@ -22,30 +21,65 @@ def collide_with_walls(sprite, group, dir):
         hits = pg.sprite.spritecollide(sprite, group, False, collide_hit_rect)
         if hits:
             if hits[0].rect.centery > sprite.hit_rect.centery:
-                sprite.pos.y =  hits[0].rect.top - sprite.hit_rect.height / 2
+                sprite.pos.y = hits[0].rect.top - sprite.hit_rect.height / 2
             if hits[0].rect.centery < sprite.hit_rect.centery:
                 sprite.pos.y = hits[0].rect.bottom + sprite.hit_rect.height / 2
             sprite.vel.y = 0
             sprite.hit_rect.centery = sprite.pos.y
 
 
-def collide_with_grass(sprite, group):
-    #list = pygame.sprite.collide_rect()
+def collide_between_walls(sprite, group, dir):
+    if dir == 'x':
+        hits = pg.sprite.spritecollide(sprite, group, False, collide_hit_rect)
+        if len(hits) > 1:
+            if hits[1].rect.centerx > sprite.hit_rect.centerx:
+                sprite.pos.x = hits[1].rect.left - sprite.hit_rect.width / 8
+            if hits[1].rect.centerx < sprite.hit_rect.centerx:
+                sprite.pos.x = hits[1].rect.right + sprite.hit_rect.width / 8
+            sprite.vel.x = 0
+            sprite.hit_rect.centerx = sprite.pos.x
+    if dir == 'y':
+        hits = pg.sprite.spritecollide(sprite, group, False, collide_hit_rect)
+        if len(hits) > 1:
+            if hits[1].rect.centery > sprite.hit_rect.centery:
+                sprite.pos.y = hits[1].rect.top - sprite.hit_rect.height / 8
+            if hits[1].rect.centery < sprite.hit_rect.centery:
+                sprite.pos.y = hits[1].rect.bottom + sprite.hit_rect.height / 8
+            sprite.vel.y = 0
+            sprite.hit_rect.centery = sprite.pos.y
+
+
+def collide_with_grass(sprite, group, default_speed):
+    # list = pygame.sprite.collide_rect()
     hits = pg.sprite.spritecollide(sprite, group, False, collide_hit_rect)
     if hits:
-        sprite.player_speed = PLAYER_SPEED/2
+        sprite.player_speed = default_speed/2
     else:
-        sprite.player_speed = PLAYER_SPEED
+        sprite.player_speed = default_speed
 
-def collect_pizza(sprite, group):
+
+def collect_pizza(sprite):
+
     l = pg.sprite.spritecollide(sprite, sprite.game.pizza, False)
     keys = pg.key.get_pressed()
-    if keys[pg.K_SPACE]:
-        if l:
-            pg.time.wait(1000)
-            sprite.qtepizzas += 1
-            l[0].kill()
-            Pizza(sprite.game)
+    if keys[pg.K_SPACE] and l:
+        sprite.game.pizza.sprites()[0].time += 1/60
+
+    if sprite.game.pizza.sprites()[0].time > 0.8:
+        sprite.qtepizzas += 1
+        sprite.game.pizza.sprites()[0].time = 0
+        l[0].kill()
+        Pizza(sprite.game)
+        if sprite.qtepizzas % 5 == 0:
+            PA(sprite.game, 200, 200, 200 + sprite.qtepizzas * 10)
+
+
+def collide_with_PA(sprite, group):
+    hits = pg.sprite.spritecollide(sprite, group, False, collide_hit_rect)
+
+    if hits:
+        sprite.game.quit()
+
 
 class Player(pg.sprite.Sprite):
     def __init__(self, game, x, y):
@@ -84,20 +118,54 @@ class Player(pg.sprite.Sprite):
         image = pg.transform.rotate(self.game.player_img, self.rot)
         self.image = image
 
-        #self.rect.center = self.pos
+        # self.rect.center = self.pos
         self.pos += self.vel * self.game.dt
-        self.rect = self.image.get_rect(center=image.get_rect(topleft=self.pos).center)
+        self.rect = self.image.get_rect(
+            center=image.get_rect(topleft=self.pos).center)
         self.hit_rect.centerx = self.pos.x
         collide_with_walls(self, self.game.walls, 'x')
         self.hit_rect.centery = self.pos.y
         collide_with_walls(self, self.game.walls, 'y')
         self.rect.center = self.hit_rect.center
-        collide_with_grass(self, self.game.grass)
+        collide_with_grass(self, self.game.grass, PLAYER_SPEED)
 
         l = pg.sprite.spritecollide(self, self.game.pizza, False)
 
-        collect_pizza(self, self.game.pizza)
+        collect_pizza(self)
+        collide_with_PA(self, self.game.PA)
 
+
+class PA(pg.sprite.Sprite):
+    def __init__(self, game, x, y, speed):
+        self.groups = game.all_sprites, game.PA
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.image = game.PA_img
+        self.rect = self.image.get_rect()
+        self.hit_rect = PA_HIT_RECT
+        self.hit_rect.center = self.rect.center
+        self.speed = speed
+        self.vel = vec(0, 0)
+        self.pos = vec(x, y)
+        self.rot = 0
+
+    def update(self):
+        self.rot = (self.game.player.pos - self.pos).angle_to(vec(1, 0))
+        self.image = pg.transform.rotate(self.game.PA_img, self.rot)
+        # self.rect = self.image.get_rect()
+        self.rect.center = self.pos
+        self.acc = vec(self.speed, 0).rotate(-self.rot)
+        self.acc += self.vel * -1
+        self.vel += self.acc * self.game.dt
+        self.pos += self.vel * self.game.dt + 0.5 * self.acc * self.game.dt ** 2
+        self.hit_rect.centerx = self.pos.x
+        collide_with_walls(self, self.game.walls, 'x')
+        # collide_between_walls(self, self.game.PA, 'x')
+        self.hit_rect.centery = self.pos.y
+        collide_with_walls(self, self.game.walls, 'y')
+        # collide_between_walls(self, self.game.PA, 'y')
+        collide_with_grass(self, self.game.grass, self.speed)
+        self.rect.center = self.hit_rect.center
 
 
 class Wall(pg.sprite.Sprite):
@@ -113,6 +181,7 @@ class Wall(pg.sprite.Sprite):
         self.rect.x = x * TILESIZE
         self.rect.y = y * TILESIZE
 
+
 class Obstacle(pg.sprite.Sprite):
     def __init__(self, game, x, y, w, h):
         self.groups = game.walls
@@ -125,6 +194,7 @@ class Obstacle(pg.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
+
 class Grama(pg.sprite.Sprite):
     def __init__(self, game, x, y, w, h):
         self.groups = game.grass
@@ -136,6 +206,7 @@ class Grama(pg.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
+
 class Pizza(pg.sprite.Sprite):
     def __init__(self, game):
         self.groups = game.all_sprites, game.pizza
@@ -145,3 +216,6 @@ class Pizza(pg.sprite.Sprite):
         num = random.randint(0, 6)
         self.rect.center = PIZZA_PLACES[num]
         self.game = game
+
+        self.time = 0
+        self.reference = 0

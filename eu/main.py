@@ -9,6 +9,7 @@ from settings import *
 from sprites import *
 from tilemap import *
 
+
 class Game:
     def __init__(self):
         pg.init()
@@ -26,7 +27,8 @@ class Game:
         self.map = TiledMap(path.join(map_folder, 'MapV1.tmx'))
         self.map_img = self.map.make_map()
         self.map_rect = self.map_img.get_rect()
-        self.player_img = pg.image.load(path.join(img_folder, 'moto_V2.png')).convert_alpha()
+        self.player_img = pg.image.load(
+            path.join(img_folder, 'moto_V2.png')).convert_alpha()
 
     def new(self):
         # initialize all variables and do all the setup for a new game
@@ -34,12 +36,13 @@ class Game:
         self.walls = pg.sprite.Group()
         self.grass = pg.sprite.Group()
         self.pizza = pg.sprite.Group()
+        self.score = 0
         my_pizza = Pizza(self)
         #self.player = Player(self, 300, 300)
-        #Obstacle(self, 10,20,
-         #        50,50)
+        # Obstacle(self, 10,20,
+        #        50,50)
         for tile_object in self.map.tmxdata.objects:
-            #if tile_object.name == 'casa':
+            # if tile_object.name == 'casa':
             #   pass
             #self.player = Player(self, 400, 300)
             if tile_object.name == 'player':
@@ -51,8 +54,7 @@ class Game:
 
             if tile_object.name == 'grama':
                 Grama(self, tile_object.x, tile_object.y,
-                         tile_object.width, tile_object.height)
-
+                      tile_object.width, tile_object.height)
 
         self.camera = Camera(self.map.width+20, self.map.height+20)
 
@@ -105,10 +107,15 @@ class Game:
     def show_go_screen(self):
         pass
 
+
 # create the game object
 g = Game()
 g.show_start_screen()
+myfont = pygame.font.Font(None, 30)
 while True:
     g.new()
     g.run()
     g.show_go_screen()
+    scoretext = myfont.render("Score = ", False, (0, 0, 0))
+    # textpos =
+    g.screen.blit(scoretext, (50, 50))

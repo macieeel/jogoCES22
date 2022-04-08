@@ -73,7 +73,7 @@ class CameraGroup(pygame.sprite.Group):
         # for sprite in sorted(self.sprites(), key=lambda sprite: sprite.rect.centery):
         #     offset_pos = sprite.rect.topleft - self.offset
         #     blit_rotate_center(self.display_surface, sprite.image, (sprite.x, sprite.y), sprite.angle, offset_pos)
-            # self.display_surface.blit(sprite.image, offset_pos)
+        # self.display_surface.blit(sprite.image, offset_pos)
 
         player_vehicle.draw(self.display_surface)
 
@@ -91,7 +91,7 @@ class AbstractVehicle(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(center=(self.x, self.y))
         self.screen = pygame.display.get_surface()
 
-    def rotate(self, win, left=False, right=False):
+    def rotate(self, left=False, right=False):
         if left:
             self.angle += self.rotation_speed
         elif right:
@@ -129,9 +129,9 @@ class AbstractVehicle(pygame.sprite.Sprite):
         moving = False
 
         if keys[pygame.K_a]:
-            self.rotate(self.screen, left=True)
+            self.rotate(left=True)
         if keys[pygame.K_d]:
-            self.rotate(self.screen, right=True)
+            self.rotate(right=True)
         if keys[pygame.K_w]:
             moving = True
             self.move_forward()
@@ -145,7 +145,7 @@ class AbstractVehicle(pygame.sprite.Sprite):
 
 class PlayerVehicle(AbstractVehicle):
     IMG = IFOOD
-    START_POS = (570,280)
+    START_POS = (570, 280)
 
 
 class Player(pygame.sprite.Sprite):
