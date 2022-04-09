@@ -27,6 +27,7 @@ def draw_time_bar(surf, x, y, pct):
 
 class Game:
     def __init__(self):
+        pg.mixer.pre_init(44100, -16, 4, 2048)
         pg.init()
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
         pg.display.set_caption(TITLE)
@@ -45,6 +46,7 @@ class Game:
         game_folder = path.dirname(__file__)
         map_folder = path.join(game_folder, 'maps')
         img_folder = path.join(game_folder, 'img')
+        sounds_folder = path.join(game_folder, 'sounds')
         self.hud_font = path.join(img_folder, 'Impacted2.0.ttf')
         self.title_font = path.join(img_folder, 'Impacted2.0.ttf')
         self.map = TiledMap(path.join(map_folder, 'mapav2.tmx'))
@@ -60,9 +62,14 @@ class Game:
             path.join(img_folder, 'pizza.png')).convert_alpha()
         self.dim_screen = pg.Surface(self.screen.get_size()).convert_alpha()
         self.dim_screen.fill((0, 0, 0, 180))
+        self.effects_sounds = {}
+        for type in EFFECTS_SOUNDS:
+            self.effects_sounds[type] = pg.mixer.Sound(
+                path.join(sounds_folder, EFFECTS_SOUNDS[type]))
 
     def new(self):
         # initialize all variables and do all the setup for a new game
+        pg.mixer.pause()
         self.time = 0
         self.go_message = ''
         self.all_sprites = pg.sprite.Group()
@@ -70,6 +77,7 @@ class Game:
         self.grass = pg.sprite.Group()
         self.pizza = pg.sprite.Group()
         self.PA = pg.sprite.Group()
+        self.agua = pg.sprite.Group()
 
         for tile_object in self.map.tmxdata.objects:
 
@@ -87,13 +95,16 @@ class Game:
                 Grama(self, tile_object.x, tile_object.y,
                       tile_object.width, tile_object.height)
 
+            if tile_object.name == 'agua':
+                Agua(self, tile_object.x, tile_object.y,
+                     tile_object.width, tile_object.height)
+
             if tile_object.name == 'pizza':
                 Pizza.pizza_places.append((tile_object.x, tile_object.y))
 
         Pizza(self)
         self.flecha = Flecha(self)
         self.camera = Camera(self.map.width, self.map.height)
-
         self.paused = False
 
     def run(self):
@@ -117,6 +128,9 @@ class Game:
         # update portion of the game loop
         self.all_sprites.update()
         self.time += 1/60
+        if round(self.time, 3) == MAX_TIME*0.7:
+            print(self.time)
+            self.effects_sounds['clock'].play()
         self.camera.update(self.player)
 
     def draw_grid(self):
@@ -142,6 +156,8 @@ class Game:
 
         self.draw_text('Score: {}'.format(self.player.qtepizzas), self.hud_font, 30, RED,
                        WIDTH - 10, 10, align="topright")
+        self.draw_text("PA's: {}".format(len(self.PA)), self.hud_font, 30, RED,
+                       WIDTH - 10, 50, align="topright")
         if self.paused:
             self.screen.blit(self.dim_screen, (0, 0))
             self.draw_text("Paused", self.title_font, 105, RED,
@@ -181,6 +197,8 @@ class Game:
         self.wait_for_click(start)
 
     def show_go_screen(self):
+        pg.mixer.pause()
+        self.effects_sounds['game_over'].play()
         self.screen.fill(BLACK)
         self.draw_text("GAME OVER", self.title_font, 100, RED,
                        WIDTH / 2, HEIGHT / 2, align="center")
@@ -232,9 +250,8 @@ class Game:
 
 # create the game object
 g = Game()
-play = True
 g.show_start_screen()
-while play:
+while True:
     g.new()
     g.run()
     g.show_go_screen()

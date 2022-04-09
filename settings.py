@@ -30,3 +30,8 @@ MAX_TIME = 100
 PLAYER_ROT_SPEED = 200
 PA_BASE_SPEED = 250
 PA_HIT_RECT = pg.Rect(0, 0, 50, 50)
+
+EFFECTS_SOUNDS = {'pick_pizza': 'pick_pizza.wav',
+                  'clock': 'ticking_clock.wav',
+                  'game_over': 'game_over.wav'
+                  }

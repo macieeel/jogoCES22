@@ -3,7 +3,6 @@ import pygame as pg
 import random
 from settings import *
 from tilemap import collide_hit_rect
-from os import path
 vec = pg.math.Vector2
 
 
@@ -71,6 +70,8 @@ def collect_pizza(sprite):
         l[0].kill()
         Pizza(sprite.game)
         sprite.game.time = 0
+        pg.mixer.pause()
+        sprite.game.effects_sounds['pick_pizza'].play()
         if sprite.qtepizzas % 5 == 0:
             PA(sprite.game, 6018, 5285, PA_BASE_SPEED + sprite.qtepizzas * 10)
 
@@ -80,7 +81,10 @@ def collide_with_PA(sprite, group):
 
     if hits:
         sprite.game.playing = False
-        sprite.game.go_message = "A PA te pegou"
+        if group == sprite.game.PA:
+            sprite.game.go_message = "A PA te pegou"
+        else:
+            sprite.game.go_message = "Você não pode dirigir na água"
 
 
 class Player(pg.sprite.Sprite):
@@ -135,6 +139,7 @@ class Player(pg.sprite.Sprite):
 
         collect_pizza(self)
         collide_with_PA(self, self.game.PA)
+        collide_with_PA(self, self.game.agua)
 
 
 class PA(pg.sprite.Sprite):
@@ -162,9 +167,11 @@ class PA(pg.sprite.Sprite):
         self.pos += self.vel * self.game.dt + 0.5 * self.acc * self.game.dt ** 2
         self.hit_rect.centerx = self.pos.x
         collide_with_walls(self, self.game.walls, 'x')
+        collide_with_walls(self, self.game.agua, 'x')
         # collide_between_walls(self, self.game.PA, 'x')
         self.hit_rect.centery = self.pos.y
         collide_with_walls(self, self.game.walls, 'y')
+        collide_with_walls(self, self.game.agua, 'y')
         # collide_between_walls(self, self.game.PA, 'y')
         collide_with_grass(self, self.game.grass, self.speed)
         self.rect.center = self.hit_rect.center
@@ -238,3 +245,15 @@ class Flecha(pg.sprite.Sprite):
         rot = (vec(self.game.pizza.sprites()[
                0].rect.center) - self.game.player.pos).angle_to(vec(1, 0))
         self.image = pg.transform.rotate(self.game.flecha_img, rot)
+
+
+class Agua(pg.sprite.Sprite):
+    def __init__(self, game, x, y, w, h):
+        self.groups = game.agua
+        pg.sprite.Sprite.__init__(self, self.groups)
+        self.game = game
+        self.rect = pg.Rect(x, y, w, h)
+        self.x = x
+        self.y = y
+        self.rect.x = x
+        self.rect.y = y
