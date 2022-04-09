@@ -200,6 +200,10 @@ class Game:
                 if event.type == pg.QUIT:
                     waiting = False
                     self.quit()
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_ESCAPE:
+                        waiting = False
+                        self.quit()
                 if event.type == pg.KEYUP:
                     if event.key == pg.K_SPACE:
                         waiting = False
@@ -213,20 +217,24 @@ class Game:
                 if event.type == pg.QUIT:
                     waiting = False
                     self.quit()
+                if event.type == pg.KEYDOWN:
+                    if event.key == pg.K_ESCAPE:
+                        waiting = False
+                        self.quit()
                 if event.type == pg.MOUSEBUTTONDOWN:
                     if pg.mouse.get_pressed()[0] and button1.collidepoint(pg.mouse.get_pos()):
                         waiting = False
                     if button2 and pg.mouse.get_pressed()[0]:
                         if button2.collidepoint(pg.mouse.get_pos()):
-                            print('hey')
                             waiting = False
                             self.como_jogar_screen()
 
 
 # create the game object
 g = Game()
+play = True
 g.show_start_screen()
-while True:
+while play:
     g.new()
     g.run()
     g.show_go_screen()
