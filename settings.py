@@ -1,5 +1,5 @@
-
 import pygame as pg
+
 # define some colors (R, G, B)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -27,8 +27,7 @@ PLAYER_HIT_RECT = pg.Rect(0, 0, 40, 83)
 MAX_TIME = 100
 
 # PA seetings
-PLAYER_ROT_SPEED = 200
-PA_BASE_SPEED = 250
+PA_BASE_SPEED = 300
 PA_HIT_RECT = pg.Rect(0, 0, 50, 50)
 
 EFFECTS_SOUNDS = {'pick_pizza': 'pick_pizza.wav',

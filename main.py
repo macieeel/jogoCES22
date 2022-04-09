@@ -85,7 +85,8 @@ class Game:
                 self.player = Player(self, tile_object.x, tile_object.y)
 
             if tile_object.name == 'PA':
-                PA(self, tile_object.x, tile_object.y, PA_BASE_SPEED)
+                PA(self, tile_object.x, tile_object.y,
+                   PA_BASE_SPEED - 50 + 8*len(self.PA))
 
             if tile_object.name == 'obs':
                 Obstacle(self, tile_object.x, tile_object.y,
@@ -128,7 +129,7 @@ class Game:
         # update portion of the game loop
         self.all_sprites.update()
         self.time += 1/60
-        if round(self.time, 3) == MAX_TIME*0.7:
+        if round(self.time, 3) == MAX_TIME*0.9:
             print(self.time)
             self.effects_sounds['clock'].play()
         self.camera.update(self.player)

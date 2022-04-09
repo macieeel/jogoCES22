@@ -72,7 +72,7 @@ def collect_pizza(sprite):
         sprite.game.time = 0
         pg.mixer.pause()
         sprite.game.effects_sounds['pick_pizza'].play()
-        if sprite.qtepizzas % 5 == 0:
+        if sprite.qtepizzas % 3 == 0:
             PA(sprite.game, 6018, 5285, PA_BASE_SPEED + sprite.qtepizzas * 10)
 
 
