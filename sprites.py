@@ -173,8 +173,8 @@ class PA(pg.sprite.Sprite):
         collide_with_walls(self, self.game.walls, 'y')
         collide_with_walls(self, self.game.agua, 'y')
         # collide_between_walls(self, self.game.PA, 'y')
-        collide_with_grass(self, self.game.grass, self.speed)
         self.rect.center = self.hit_rect.center
+        collide_with_grass(self, self.game.grass, self.speed)
 
 
 class Wall(pg.sprite.Sprite):

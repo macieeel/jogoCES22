@@ -27,7 +27,7 @@ PLAYER_HIT_RECT = pg.Rect(0, 0, 40, 83)
 MAX_TIME = 100
 
 # PA seetings
-PA_BASE_SPEED = 300
+PA_BASE_SPEED = 400
 PA_HIT_RECT = pg.Rect(0, 0, 50, 50)
 
 EFFECTS_SOUNDS = {'pick_pizza': 'pick_pizza.wav',
