@@ -1,0 +1,37 @@
+objetos para implementação de texto:
+
+portaria ok
+CCM ok
+exec ok 
+almox ok
+bancos ok
+ITA ok
+ELECOMP ok 
+lacaz ok
+biblioteca ok
+novo fund ok
+posto ok
+hto ok
+rancho dos pracas ok
+rancho dos oficiais ok
+rancho dos alunos ok
+nobo h8 ok
+h8c ok
+h8a ok
+h8b ok
+capela ok
+cpor ok
+villareal ok
+ds ok
+escola ok
+
+h20 ok
+h10 ok
+h18 ok
+h19 ok
+h21 ok
+h27 ok
+h30 ok
+h9 ok 
+h32 ok 
+h25 ok
