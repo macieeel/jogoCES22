@@ -1,4 +1,3 @@
-from multiprocessing.connection import wait
 import pygame as pg
 import sys
 from os import path
@@ -42,16 +41,26 @@ class Game:
         return text_rect
 
     def load_data(self):
+        # folders
         game_folder = path.dirname(__file__)
         game_folder = path.dirname(__file__)
         map_folder = path.join(game_folder, 'maps')
         img_folder = path.join(game_folder, 'img')
         sounds_folder = path.join(game_folder, 'sounds')
-        self.hud_font = path.join(img_folder, 'Impacted2.0.ttf')
-        self.title_font = path.join(img_folder, 'Impacted2.0.ttf')
+
+        # fonts
+        self.hud_font = path.join(img_folder, 'Cabin.ttf')
+        self.title_font = path.join(img_folder, 'lazer84.ttf')
+
+        # map
         self.map = TiledMap(path.join(map_folder, 'mapav2.tmx'))
         self.map_img = self.map.make_map()
         self.map_rect = self.map_img.get_rect()
+
+        # imagens
+        self.bg_img = pg.image.load(
+            path.join(img_folder, 'background.png'))
+        self.bg_img = pg.transform.scale(self.bg_img, ((WIDTH, HEIGHT)))
         self.player_img = pg.image.load(
             path.join(img_folder, 'moto_V2.png')).convert_alpha()
         self.PA_img = pg.image.load(
@@ -60,16 +69,21 @@ class Game:
             path.join(img_folder, 'flecha.png')).convert_alpha()
         self.pizza_img = pg.image.load(
             path.join(img_folder, 'pizza.png')).convert_alpha()
+
+        # tela
         self.dim_screen = pg.Surface(self.screen.get_size()).convert_alpha()
         self.dim_screen.fill((0, 0, 0, 180))
+
+        # sons
+        pg.mixer.music.set_volume(0.2)
+        pg.mixer.music.load(path.join(sounds_folder, BG_MUSIC))
         self.effects_sounds = {}
         for type in EFFECTS_SOUNDS:
             self.effects_sounds[type] = pg.mixer.Sound(
                 path.join(sounds_folder, EFFECTS_SOUNDS[type]))
 
     def new(self):
-        # initialize all variables and do all the setup for a new game
-        pg.mixer.pause()
+        self.effects_sounds['menu'].stop()
         self.time = 0
         self.go_message = ''
         self.all_sprites = pg.sprite.Group()
@@ -109,8 +123,8 @@ class Game:
         self.paused = False
 
     def run(self):
-        # game loop - set self.playing = False to end the game
         self.playing = True
+        pg.mixer.music.play(loops=-1)
         while self.playing:
             self.dt = self.clock.tick(FPS) / 1000
             self.events()
@@ -144,7 +158,7 @@ class Game:
         self.screen.fill(BGCOLOR)
         self.draw_grid()
         self.screen.blit(self.map_img, self.camera.apply_rect(self.map_rect))
-        
+
         for sprite in self.all_sprites:
             if not sprite == self.player or not self.flecha:
                 self.screen.blit(sprite.image, self.camera.apply(sprite))
@@ -161,7 +175,7 @@ class Game:
                        WIDTH - 10, 50, align="topright")
         if self.paused:
             self.screen.blit(self.dim_screen, (0, 0))
-            self.draw_text("Paused", self.title_font, 105, RED,
+            self.draw_text("Pausado", self.title_font, 105, RED,
                            WIDTH / 2, HEIGHT / 2, align="center")
         pg.display.flip()
 
@@ -174,17 +188,27 @@ class Game:
                 if event.key == pg.K_ESCAPE:
                     self.quit()
                 if event.key == pg.K_p:
-                    self.paused = not self.paused
+                    if self.paused == False:
+                        self.paused = True
+                        pg.mixer.music.pause()
+                    else:
+                        pg.mixer.music.unpause()
+                        self.paused = False
 
     def show_start_screen(self):
+        self.effects_sounds['menu'].play()
         self.screen.fill(BLACK)
-        self.draw_text("3030: Esqueci de Liberar", self.title_font, 80, RED,
-                       WIDTH / 2, HEIGHT / 2, align="center")
-        start = self.draw_text("Iniciar", None, 40, WHITE,
-                               WIDTH / 3, HEIGHT * 3 / 4, align="center")
+        self.screen.blit(self.bg_img, (0, 0))
+        self.draw_text("3030: Esqueci de", self.title_font, 80, DARKRED,
+                       500, 150, align="center")
+        self.draw_text("Liberar", self.title_font, 80, DARKRED,
+                       500, 250, align="center")
 
-        instructions = self.draw_text("Instruções", None, 40, WHITE,
-                                      WIDTH * 2 / 3, HEIGHT * 3 / 4, align="center")
+        start = self.draw_text("Iniciar", self.hud_font, 50, DARKRED,
+                               600, 850, align="center")
+
+        instructions = self.draw_text("Instruções", self.hud_font, 50, DARKRED,
+                                      600, 950, align="center")
         pg.display.flip()
         self.wait_for_click(start, instructions)
 
@@ -197,7 +221,7 @@ class Game:
         self.draw_text("Você é um entregador de pizza que entrou na portaria sem ser liberado! A polícia está atrás de você!", None, 36, YELLOW,
                        WIDTH / 2, HEIGHT / 6 + d + h, align="center")
         self.draw_text("Ande pelo mapa usando as teclas WASD ou setas (direita e esquerda rotacionam a moto).", None, 36, YELLOW,
-                       WIDTH / 2, HEIGHT / 6 + 2*d+ h, align="center")
+                       WIDTH / 2, HEIGHT / 6 + 2*d + h, align="center")
         self.draw_text("Andar pela grama diminui sua velocidade e há blocos intransponíveis no mapa. Não ande através do lago!", None, 36, YELLOW,
                        WIDTH / 2, HEIGHT / 6 + 3*d + h, align="center")
         self.draw_text("Para entregar as pizzas, siga a seta do canto superior esquerdo para encontrá-las.", None, 36, YELLOW,
@@ -208,21 +232,22 @@ class Game:
                        WIDTH / 2, HEIGHT / 6 + 6*d + h, align="center")
         self.draw_text("Evite que a polícia o encontre!", None, 36, YELLOW,
                        WIDTH / 2, HEIGHT / 6 + 7*d + h, align="center")
-        
+
         start = self.draw_text("Iniciar", None, 40, RED,
                                WIDTH / 2, HEIGHT * 3 / 4, align="center")
         pg.display.flip()
         self.wait_for_click(start)
 
     def show_go_screen(self):
-        pg.mixer.pause()
+        pg.mixer.music.stop()
+        self.effects_sounds['clock'].stop()
         self.effects_sounds['game_over'].play()
         self.screen.fill(BLACK)
-        self.draw_text("GAME OVER", self.title_font, 100, RED,
+        self.draw_text("GAME OVER", self.title_font, 100, DARKRED,
                        WIDTH / 2, HEIGHT / 2, align="center")
-        self.draw_text(self.go_message, None, 60, WHITE,
+        self.draw_text(self.go_message, self.hud_font, 60, WHITE,
                        WIDTH / 2, HEIGHT * 2/3, align="center")
-        self.draw_text("Precione ESPAÇO para tentar novamente", None, 40, WHITE,
+        self.draw_text("Pressione ESPAÇO para tentar novamente", self.hud_font, 40, WHITE,
                        WIDTH / 2, HEIGHT * 4 / 5, align="center")
         pg.display.flip()
         self.wait_for_key()
@@ -242,6 +267,7 @@ class Game:
                         self.quit()
                 if event.type == pg.KEYUP:
                     if event.key == pg.K_SPACE:
+                        self.effects_sounds['game_over'].stop()
                         waiting = False
 
     def wait_for_click(self, button1, button2=False):
