@@ -55,7 +55,7 @@ def collect_pizza(sprite):
         l[0].kill()
         Pizza(sprite.game)
         sprite.game.time = 0
-        sprite.game.effects_sounds['clock'].pause()
+        sprite.game.effects_sounds['clock'].stop()
         sprite.game.effects_sounds['pick_pizza'].play()
         if sprite.qtepizzas % 2 == 0:
             PA(sprite.game, 6018, 5285, PA_BASE_SPEED +

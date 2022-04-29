@@ -151,7 +151,7 @@ class Game:
         '''atualiza o jogo'''
         self.all_sprites.update()
         self.time += 1/60
-        if round(self.time, 3) == MAX_TIME - 8:
+        if round(self.time, 2) == MAX_TIME - 8:
             self.effects_sounds['clock'].play()
         self.camera.update(self.player)
 
@@ -209,16 +209,16 @@ class Game:
         self.effects_sounds['menu'].play()
         self.screen.fill(BLACK)
         self.screen.blit(self.bg_img, (0, 0))
-        self.draw_text("3030: Esqueci de", self.title_font, 80, DARKRED,
-                       500, 150, align="center")
-        self.draw_text("Liberar", self.title_font, 80, DARKRED,
-                       500, 250, align="center")
+        self.draw_text("3030: Esqueci de", self.title_font, TITLESIZE, DARKRED,
+                       25*WIDTH / 96, 5 * HEIGHT / 36, align="center")
+        self.draw_text("Liberar", self.title_font, TITLESIZE, DARKRED,
+                       25*WIDTH / 96, 25 * HEIGHT / 108, align="center")
 
-        start = self.draw_text("Iniciar", self.hud_font, 50, DARKRED,
-                               600, 850, align="center")
+        start = self.draw_text("Iniciar", self.hud_font, TEXTSIZE, DARKRED,
+                               5 * WIDTH / 16, 85 * HEIGHT / 108, align="center")
 
-        instructions = self.draw_text("Instruções", self.hud_font, 50, DARKRED,
-                                      600, 950, align="center")
+        instructions = self.draw_text("Instruções", self.hud_font, TEXTSIZE, DARKRED,
+                                      5 * WIDTH / 16, 95 * HEIGHT / 108, align="center")
         pg.display.flip()
         self.wait_for_click(start, instructions)
 
@@ -228,26 +228,26 @@ class Game:
         d = 55
         h = 70
         self.draw_text("~", self.hud_font, 100, DARKRED,
-                       1080, 130, align="center")
-        self.draw_text("Instruçoes", self.title_font, 70, DARKRED,
+                       55/96 * WIDTH, 13 * HEIGHT / 108, align="center")
+        self.draw_text("Instruçoes", self.title_font, TITLESIZE, DARKRED,
                        WIDTH / 2, HEIGHT / 6, align="center")
-        self.draw_text("Você é um entregador de pizza que entrou na portaria sem ser liberado! A polícia está atrás de você!", self.hud_font, 36, WHITE,
+        self.draw_text("Você é um entregador de pizza que entrou na portaria sem ser liberado! A polícia está atrás de você!", self.hud_font, INSTSIZE, WHITE,
                        WIDTH / 2, HEIGHT / 6 + d + h, align="center")
-        self.draw_text("Ande pelo mapa usando as teclas WASD ou setas (direita e esquerda rotacionam a moto).", self.hud_font, 36, WHITE,
+        self.draw_text("Ande pelo mapa usando as teclas WASD ou setas (direita e esquerda rotacionam a moto).", self.hud_font, INSTSIZE, WHITE,
                        WIDTH / 2, HEIGHT / 6 + 2*d + h, align="center")
-        self.draw_text("Andar pela grama diminui sua velocidade e há blocos intransponíveis no mapa. Não ande através do lago!", self.hud_font, 36, WHITE,
+        self.draw_text("Andar pela grama diminui sua velocidade e há blocos intransponíveis no mapa. Não ande através do lago!", self.hud_font, INSTSIZE, WHITE,
                        WIDTH / 2, HEIGHT / 6 + 3*d + h, align="center")
-        self.draw_text("Para entregar as pizzas, siga a seta do canto superior esquerdo para encontrá-las.", self.hud_font, 36, WHITE,
+        self.draw_text("Para entregar as pizzas, siga a seta do canto superior esquerdo para encontrá-las.", self.hud_font, INSTSIZE, WHITE,
                        WIDTH / 2, HEIGHT / 6 + 4*d + h, align="center")
-        self.draw_text("É preciso pressionar a barra de espaço para efetuar a entrega.", self.hud_font, 36, WHITE,
+        self.draw_text("É preciso pressionar a barra de espaço para efetuar a entrega.", self.hud_font, INSTSIZE, WHITE,
                        WIDTH / 2, HEIGHT / 6 + 5*d + h, align="center")
-        self.draw_text("Cuidado. Há um tempo limite para realizar a entrega!", self.hud_font, 36, WHITE,
+        self.draw_text("Cuidado. Há um tempo limite para realizar a entrega!", self.hud_font, INSTSIZE, WHITE,
                        WIDTH / 2, HEIGHT / 6 + 6*d + h, align="center")
-        self.draw_text("Evite que a polícia o encontre!", self.hud_font, 36, WHITE,
+        self.draw_text("Evite que a polícia o encontre!", self.hud_font, INSTSIZE, WHITE,
                        WIDTH / 2, HEIGHT / 6 + 7*d + h, align="center")
 
-        start = self.draw_text("Iniciar", self.hud_font, 50, DARKRED,
-                               WIDTH / 2, HEIGHT * 3 / 4, align="center")
+        start = self.draw_text("Iniciar", self.hud_font, TEXTSIZE, DARKRED,
+                               WIDTH / 2, HEIGHT * 7 / 8, align="center")
         pg.display.flip()
         self.wait_for_click(start)
 
@@ -260,9 +260,9 @@ class Game:
         self.screen.fill(BLACK)
         self.draw_text("GAME OVER", self.title_font, 100, DARKRED,
                        WIDTH / 2, HEIGHT / 2, align="center")
-        self.draw_text(self.go_message, self.hud_font, 60, WHITE,
+        self.draw_text(self.go_message, self.hud_font, TEXTSIZE + 10, WHITE,
                        WIDTH / 2, HEIGHT * 2/3, align="center")
-        self.draw_text("Pressione ESPAÇO para tentar novamente", self.hud_font, 40, WHITE,
+        self.draw_text("Pressione ESPAÇO para tentar novamente", self.hud_font, TEXTSIZE - 10, WHITE,
                        WIDTH / 2, HEIGHT * 4 / 5, align="center")
         pg.display.flip()
         self.wait_for_key()
