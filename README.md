@@ -46,7 +46,7 @@ Pasta que contém o arquivo TMX do mapa, arquivos utilizados no TILED para geren
 
 Pasta com tudo que é relacionado ao som do jogo. Contém as músicas e efeitos sonoros.
 
-### textos
+### texts
 
 Pasta com todos os arquivos de imagem utilizados para rotular os prédios do mapa.
 
