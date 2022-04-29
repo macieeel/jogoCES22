@@ -17,7 +17,7 @@ No terminal, clone o projeto:
 git clone https://github.com/macieeel/jogoCES22.git
 ```
 
-*A final do jogo está na branch main.*
+*A versão final do jogo está na branch main.*
 
 O jogo se trata de um entregador que precisa entregar pizzas enquanto está fugindo da polícia.
 
