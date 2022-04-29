@@ -8,211 +8,211 @@
  <tileset firstgid="6" name="portaria" tilewidth="360" tileheight="144" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="360" height="144" source="../textos/portaria.png"/>
+   <image width="360" height="144" source="../texts/portaria.png"/>
   </tile>
  </tileset>
  <tileset firstgid="7" name="CCM" tilewidth="216" tileheight="72" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="216" height="72" source="../textos/CCM.png"/>
+   <image width="216" height="72" source="../texts/CCM.png"/>
   </tile>
  </tileset>
  <tileset firstgid="8" name="exec" tilewidth="216" tileheight="72" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="216" height="72" source="../textos/exec.png"/>
+   <image width="216" height="72" source="../texts/exec.png"/>
   </tile>
  </tileset>
  <tileset firstgid="9" name="almox" tilewidth="216" tileheight="72" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="216" height="72" source="../textos/almox.png"/>
+   <image width="216" height="72" source="../texts/almox.png"/>
   </tile>
  </tileset>
  <tileset firstgid="10" name="bancos" tilewidth="216" tileheight="72" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="216" height="72" source="../textos/bancos.png"/>
+   <image width="216" height="72" source="../texts/bancos.png"/>
   </tile>
  </tileset>
  <tileset firstgid="11" name="ITA" tilewidth="144" tileheight="72" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="144" height="72" source="../textos/ITA.png"/>
+   <image width="144" height="72" source="../texts/ITA.png"/>
   </tile>
  </tileset>
  <tileset firstgid="12" name="biblioteca" tilewidth="216" tileheight="72" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="216" height="72" source="../textos/biblioteca.png"/>
+   <image width="216" height="72" source="../texts/biblioteca.png"/>
   </tile>
  </tileset>
  <tileset firstgid="13" name="lacaz" tilewidth="216" tileheight="72" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="216" height="72" source="../textos/lacaz.png"/>
+   <image width="216" height="72" source="../texts/lacaz.png"/>
   </tile>
  </tileset>
  <tileset firstgid="14" name="elecomp" tilewidth="216" tileheight="72" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="216" height="72" source="../textos/elecomp.png"/>
+   <image width="216" height="72" source="../texts/elecomp.png"/>
   </tile>
  </tileset>
  <tileset firstgid="15" name="fund" tilewidth="216" tileheight="72" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="216" height="72" source="../textos/fund.png"/>
+   <image width="216" height="72" source="../texts/fund.png"/>
   </tile>
  </tileset>
  <tileset firstgid="16" name="alunos" tilewidth="216" tileheight="144" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="216" height="144" source="../textos/alunos.png"/>
+   <image width="216" height="144" source="../texts/alunos.png"/>
   </tile>
  </tileset>
  <tileset firstgid="17" name="pracas" tilewidth="216" tileheight="144" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="216" height="144" source="../textos/pracas.png"/>
+   <image width="216" height="144" source="../texts/pracas.png"/>
   </tile>
  </tileset>
  <tileset firstgid="18" name="oficiais" tilewidth="216" tileheight="144" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="216" height="144" source="../textos/oficiais.png"/>
+   <image width="216" height="144" source="../texts/oficiais.png"/>
   </tile>
  </tileset>
  <tileset firstgid="19" name="hto" tilewidth="144" tileheight="72" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="144" height="72" source="../textos/hto.png"/>
+   <image width="144" height="72" source="../texts/hto.png"/>
   </tile>
  </tileset>
  <tileset firstgid="20" name="posto" tilewidth="216" tileheight="72" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="216" height="72" source="../textos/posto.png"/>
+   <image width="216" height="72" source="../texts/posto.png"/>
   </tile>
  </tileset>
  <tileset firstgid="21" name="novoh8" tilewidth="216" tileheight="72" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="216" height="72" source="../textos/novoh8.png"/>
+   <image width="216" height="72" source="../texts/novoh8.png"/>
   </tile>
  </tileset>
  <tileset firstgid="22" name="h8a" tilewidth="144" tileheight="72" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="144" height="72" source="../textos/h8a.png"/>
+   <image width="144" height="72" source="../texts/h8a.png"/>
   </tile>
  </tileset>
  <tileset firstgid="23" name="h8b" tilewidth="144" tileheight="72" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="144" height="72" source="../textos/h8b.png"/>
+   <image width="144" height="72" source="../texts/h8b.png"/>
   </tile>
  </tileset>
  <tileset firstgid="24" name="h8c" tilewidth="144" tileheight="72" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="144" height="72" source="../textos/h8c.png"/>
+   <image width="144" height="72" source="../texts/h8c.png"/>
   </tile>
  </tileset>
  <tileset firstgid="25" name="capela" tilewidth="216" tileheight="72" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="216" height="72" source="../textos/capela.png"/>
+   <image width="216" height="72" source="../texts/capela.png"/>
   </tile>
  </tileset>
  <tileset firstgid="26" name="cpor" tilewidth="216" tileheight="144" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="216" height="144" source="../textos/cpor.png"/>
+   <image width="216" height="144" source="../texts/cpor.png"/>
   </tile>
  </tileset>
  <tileset firstgid="27" name="villa" tilewidth="216" tileheight="144" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="216" height="144" source="../textos/villa.png"/>
+   <image width="216" height="144" source="../texts/villa.png"/>
   </tile>
  </tileset>
  <tileset firstgid="28" name="h10" tilewidth="144" tileheight="72" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="144" height="72" source="../textos/h10.png"/>
+   <image width="144" height="72" source="../texts/h10.png"/>
   </tile>
  </tileset>
  <tileset firstgid="29" name="ds" tilewidth="144" tileheight="72" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="144" height="72" source="../textos/ds.png"/>
+   <image width="144" height="72" source="../texts/ds.png"/>
   </tile>
  </tileset>
  <tileset firstgid="30" name="escola" tilewidth="144" tileheight="72" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="144" height="72" source="../textos/escola.png"/>
+   <image width="144" height="72" source="../texts/escola.png"/>
   </tile>
  </tileset>
  <tileset firstgid="31" name="h18" tilewidth="144" tileheight="72" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="144" height="72" source="../textos/h18.png"/>
+   <image width="144" height="72" source="../texts/h18.png"/>
   </tile>
  </tileset>
  <tileset firstgid="32" name="h20" tilewidth="144" tileheight="72" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="144" height="72" source="../textos/h20.png"/>
+   <image width="144" height="72" source="../texts/h20.png"/>
   </tile>
  </tileset>
  <tileset firstgid="33" name="h21" tilewidth="144" tileheight="72" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="144" height="72" source="../textos/h21.png"/>
+   <image width="144" height="72" source="../texts/h21.png"/>
   </tile>
  </tileset>
  <tileset firstgid="34" name="h27" tilewidth="144" tileheight="72" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="144" height="72" source="../textos/h27.png"/>
+   <image width="144" height="72" source="../texts/h27.png"/>
   </tile>
  </tileset>
  <tileset firstgid="35" name="h30" tilewidth="144" tileheight="72" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="144" height="72" source="../textos/h30.png"/>
+   <image width="144" height="72" source="../texts/h30.png"/>
   </tile>
  </tileset>
  <tileset firstgid="36" name="h9" tilewidth="144" tileheight="72" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="144" height="72" source="../textos/h9.png"/>
+   <image width="144" height="72" source="../texts/h9.png"/>
   </tile>
  </tileset>
  <tileset firstgid="37" name="h25" tilewidth="144" tileheight="72" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="144" height="72" source="../textos/h25.png"/>
+   <image width="144" height="72" source="../texts/h25.png"/>
   </tile>
  </tileset>
  <tileset firstgid="38" name="h32" tilewidth="144" tileheight="72" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="144" height="72" source="../textos/h32.png"/>
+   <image width="144" height="72" source="../texts/h32.png"/>
   </tile>
  </tileset>
  <tileset firstgid="39" name="h19" tilewidth="144" tileheight="72" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="144" height="72" source="../textos/h19.png"/>
+   <image width="144" height="72" source="../texts/h19.png"/>
   </tile>
  </tileset>
  <tileset firstgid="40" name="aesp" tilewidth="144" tileheight="72" tilecount="1" columns="0">
   <grid orientation="orthogonal" width="1" height="1"/>
   <tile id="0">
-   <image width="144" height="72" source="../textos/aesp.png"/>
+   <image width="144" height="72" source="../texts/aesp.png"/>
   </tile>
  </tileset>
  <layer id="1" name="Camada de Tiles 1" width="252" height="90">
