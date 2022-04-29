@@ -23,9 +23,19 @@ git clone https://github.com/macieeel/jogoCES22.git
 
 _A versão final do jogo está na branch main._
 
-O jogo se trata de um entregador que precisa entregar pizzas enquanto está fugindo da polícia.
+Baixe os módulos:
+```
+pip install pygame
+pip install pytmx
+pip install sys
+```
+
+Por fim, execute o arquivo main.py.
+
 
 ## INSTRUÇÕES:
+
+O jogo se trata de um entregador que precisa entregar pizzas enquanto está fugindo da polícia.
 
 Ande pelo mapa com WASD ou Setas (direita e esquerda rotacionam sua moto).
 Andar na grama diminui sua velocidade e blocos amarelos e verdes escuro são prédios e árvores, e são intransponíveis.
@@ -33,7 +43,8 @@ Para entregar as pizzas, siga a seta vermelha do canto superior esquerdo, e quan
 Cuidado, cada entrega possui um tempo limite indicado na barra.
 Não dirija na água e não deixe a polícia encostar em você!
 
-Para rodar o jogo, execute o arquivo main.py.
+
+
 
 ## PASTAS:
 
