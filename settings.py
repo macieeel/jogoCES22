@@ -25,15 +25,17 @@ GRIDHEIGHT = HEIGHT / TILESIZE
 PLAYER_SPEED = 500
 PLAYER_ROT_SPEED = 200
 PLAYER_HIT_RECT = pg.Rect(0, 0, 40, 72)
-MAX_TIME = 100
+MAX_TIME = 80
 
 # PA seetings
 PA_BASE_SPEED = 300
+PA_UP_SPEED = 30
 PA_HIT_RECT = pg.Rect(0, 0, 50, 50)
 
 BG_MUSIC = 'jogo.mp3'
 EFFECTS_SOUNDS = {'pick_pizza': 'pick_pizza.mp3',
                   'clock': 'ticking_clock.wav',
                   'game_over': 'game_over.mp3',
-                  'menu': 'tela_inicial.mp3'
+                  'menu': 'tela_inicial.mp3',
+                  'moto': 'moto1.wav'
                   }

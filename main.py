@@ -75,12 +75,13 @@ class Game:
         self.dim_screen.fill((0, 0, 0, 180))
 
         # sons
-        pg.mixer.music.set_volume(0.2)
         pg.mixer.music.load(path.join(sounds_folder, BG_MUSIC))
+        pg.mixer.music.set_volume(0.5)
         self.effects_sounds = {}
         for type in EFFECTS_SOUNDS:
             self.effects_sounds[type] = pg.mixer.Sound(
                 path.join(sounds_folder, EFFECTS_SOUNDS[type]))
+        self.effects_sounds['moto'].set_volume(0.05)
 
     def new(self):
         self.effects_sounds['menu'].stop()
@@ -143,7 +144,7 @@ class Game:
         # update portion of the game loop
         self.all_sprites.update()
         self.time += 1/60
-        if round(self.time, 3) == MAX_TIME*0.9:
+        if round(self.time, 3) == MAX_TIME - 8:
             print(self.time)
             self.effects_sounds['clock'].play()
         self.camera.update(self.player)
@@ -169,7 +170,7 @@ class Game:
         # Legendas
         draw_time_bar(self.screen, 10, 10, (MAX_TIME - self.time) / MAX_TIME)
 
-        self.draw_text('Score: {}'.format(self.player.qtepizzas), self.hud_font, 30, RED,
+        self.draw_text('Pizzas entregues: {}'.format(self.player.qtepizzas), self.hud_font, 30, RED,
                        WIDTH - 10, 10, align="topright")
         self.draw_text("PA's: {}".format(len(self.PA)), self.hud_font, 30, RED,
                        WIDTH - 10, 50, align="topright")
@@ -240,6 +241,7 @@ class Game:
 
     def show_go_screen(self):
         pg.mixer.music.stop()
+        self.effects_sounds['moto'].stop()
         self.effects_sounds['clock'].stop()
         self.effects_sounds['game_over'].play()
         self.screen.fill(BLACK)

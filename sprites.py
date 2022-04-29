@@ -72,8 +72,9 @@ def collect_pizza(sprite):
         sprite.game.time = 0
         pg.mixer.pause()
         sprite.game.effects_sounds['pick_pizza'].play()
-        if sprite.qtepizzas % 3 == 0:
-            PA(sprite.game, 6018, 5285, PA_BASE_SPEED + sprite.qtepizzas * 10)
+        if sprite.qtepizzas % 2 == 0:
+            PA(sprite.game, 6018, 5285, PA_BASE_SPEED +
+               sprite.qtepizzas * PA_UP_SPEED / 2)
 
 
 def collide_with_PA(sprite, group):
@@ -124,10 +125,16 @@ class Player(pg.sprite.Sprite):
         image = pg.transform.rotate(self.game.player_img, self.rot)
         self.image = image
 
-        # self.rect.center = self.pos
+        if self.vel == vec(0, 0):
+            self.game.effects_sounds['moto'].stop()
+        else:
+            self.game.effects_sounds['moto'].play(loops=-1)
+
         self.pos += self.vel * self.game.dt
+
         self.rect = self.image.get_rect(
             center=image.get_rect(topleft=self.pos).center)
+
         self.hit_rect.centerx = self.pos.x
         collide_with_walls(self, self.game.walls, 'x')
         self.hit_rect.centery = self.pos.y
