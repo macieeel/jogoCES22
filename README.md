@@ -30,7 +30,11 @@ pip install pytmx
 pip install sys
 ```
 
-Por fim, execute o arquivo main.py.
+Por fim, execute o arquivo main.py:
+
+```
+python main.py
+```
 
 
 ## INSTRUÇÕES:
