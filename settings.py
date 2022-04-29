@@ -11,8 +11,8 @@ DARKRED = (139, 0, 0)
 YELLOW = (255, 255, 0)
 
 # configurações do jogo
-WIDTH = 1920
-HEIGHT = 1080
+WIDTH = 1280
+HEIGHT = 720
 TITLESIZE = int(80 * WIDTH / 1920)
 TEXTSIZE = int(50 * WIDTH / 1920)
 INSTSIZE = int(36 * WIDTH / 1920)
