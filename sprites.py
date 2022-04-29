@@ -7,6 +7,9 @@ vec = pg.math.Vector2
 
 
 def collide_with_walls(sprite, group, dir):
+    '''faz colisao entre a sprite
+    e o grupo passados por parametro,
+    na direção passada por parametro'''
     if dir == 'x':
         hits = pg.sprite.spritecollide(sprite, group, False, collide_hit_rect)
         if hits:
@@ -27,29 +30,8 @@ def collide_with_walls(sprite, group, dir):
             sprite.hit_rect.centery = sprite.pos.y
 
 
-def collide_between_walls(sprite, group, dir):
-    if dir == 'x':
-        hits = pg.sprite.spritecollide(sprite, group, False, collide_hit_rect)
-        if len(hits) > 1:
-            if hits[1].rect.centerx > sprite.hit_rect.centerx:
-                sprite.pos.x = hits[1].rect.left - sprite.hit_rect.width / 8
-            if hits[1].rect.centerx < sprite.hit_rect.centerx:
-                sprite.pos.x = hits[1].rect.right + sprite.hit_rect.width / 8
-            sprite.vel.x = 0
-            sprite.hit_rect.centerx = sprite.pos.x
-    if dir == 'y':
-        hits = pg.sprite.spritecollide(sprite, group, False, collide_hit_rect)
-        if len(hits) > 1:
-            if hits[1].rect.centery > sprite.hit_rect.centery:
-                sprite.pos.y = hits[1].rect.top - sprite.hit_rect.height / 8
-            if hits[1].rect.centery < sprite.hit_rect.centery:
-                sprite.pos.y = hits[1].rect.bottom + sprite.hit_rect.height / 8
-            sprite.vel.y = 0
-            sprite.hit_rect.centery = sprite.pos.y
-
-
 def collide_with_grass(sprite, group, default_speed):
-    # list = pygame.sprite.collide_rect()
+    '''diminui a velocidade na grama'''
     hits = pg.sprite.spritecollide(sprite, group, False, collide_hit_rect)
     if hits:
         sprite.player_speed = default_speed
@@ -58,7 +40,10 @@ def collide_with_grass(sprite, group, default_speed):
 
 
 def collect_pizza(sprite):
-
+    '''coleta a pizza, gera outra,
+    aumenta o numero de pizzas coletadas
+    e verifica por módulo de dois para
+    adicionar nova PA, com maior velocidade'''
     l = pg.sprite.spritecollide(sprite, sprite.game.pizza, False)
     keys = pg.key.get_pressed()
     if keys[pg.K_SPACE] and l:
@@ -70,7 +55,7 @@ def collect_pizza(sprite):
         l[0].kill()
         Pizza(sprite.game)
         sprite.game.time = 0
-        pg.mixer.pause()
+        sprite.game.effects_sounds['clock'].pause()
         sprite.game.effects_sounds['pick_pizza'].play()
         if sprite.qtepizzas % 2 == 0:
             PA(sprite.game, 6018, 5285, PA_BASE_SPEED +
@@ -78,6 +63,7 @@ def collect_pizza(sprite):
 
 
 def collide_with_PA(sprite, group):
+    '''verifica colisão com PA, caso colida, acaba o jogo'''
     hits = pg.sprite.spritecollide(sprite, group, False, collide_hit_rect)
 
     if hits:
@@ -90,6 +76,7 @@ def collide_with_PA(sprite, group):
 
 class Player(pg.sprite.Sprite):
     def __init__(self, game, x, y):
+        '''construtor da classe jogador'''
         self.groups = game.all_sprites
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
@@ -104,9 +91,11 @@ class Player(pg.sprite.Sprite):
         self.qtepizzas = 0
 
     def get_pizza(self):
+        '''pega quantidade de pizzas recolhidas'''
         self.qtepizzas += 1
 
     def get_keys(self):
+        '''verifica tecla apertada pelo jogador'''
         self.rot_speed = 0
         self.vel = vec(0, 0)
         keys = pg.key.get_pressed()
@@ -120,6 +109,7 @@ class Player(pg.sprite.Sprite):
             self.vel = vec(-self.player_speed / 2, 0).rotate(-self.rot)
 
     def update(self):
+        '''atualiza o jogador'''
         self.get_keys()
         self.rot = (self.rot + self.rot_speed * self.game.dt) % 360
         image = pg.transform.rotate(self.game.player_img, self.rot)
@@ -151,6 +141,7 @@ class Player(pg.sprite.Sprite):
 
 class PA(pg.sprite.Sprite):
     def __init__(self, game, x, y, speed):
+        '''consturtor classe PA'''
         self.groups = game.all_sprites, game.PA
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
@@ -164,6 +155,7 @@ class PA(pg.sprite.Sprite):
         self.rot = 0
 
     def update(self):
+        '''atualiza PA'''
         self.rot = (self.game.player.pos - self.pos).angle_to(vec(1, 0))
         self.image = pg.transform.rotate(self.game.PA_img, self.rot)
         # self.rect = self.image.get_rect()
@@ -175,31 +167,16 @@ class PA(pg.sprite.Sprite):
         self.hit_rect.centerx = self.pos.x
         collide_with_walls(self, self.game.walls, 'x')
         collide_with_walls(self, self.game.agua, 'x')
-        # collide_between_walls(self, self.game.PA, 'x')
         self.hit_rect.centery = self.pos.y
         collide_with_walls(self, self.game.walls, 'y')
         collide_with_walls(self, self.game.agua, 'y')
-        # collide_between_walls(self, self.game.PA, 'y')
         self.rect.center = self.hit_rect.center
         collide_with_grass(self, self.game.grass, self.speed)
 
 
-class Wall(pg.sprite.Sprite):
-    def __init__(self, game, x, y):
-        self.groups = game.all_sprites, game.walls
-        pg.sprite.Sprite.__init__(self, self.groups)
-        self.game = game
-        self.image = pg.Surface((TILESIZE, TILESIZE))
-        self.image.fill(GREEN)
-        self.rect = self.image.get_rect()
-        self.x = x
-        self.y = y
-        self.rect.x = x * TILESIZE
-        self.rect.y = y * TILESIZE
-
-
 class Obstacle(pg.sprite.Sprite):
     def __init__(self, game, x, y, w, h):
+        '''construtor classe Obstáculo'''
         self.groups = game.walls
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
@@ -213,6 +190,7 @@ class Obstacle(pg.sprite.Sprite):
 
 class Grama(pg.sprite.Sprite):
     def __init__(self, game, x, y, w, h):
+        '''construtor classe grama'''
         self.groups = game.grass
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game
@@ -227,6 +205,7 @@ class Pizza(pg.sprite.Sprite):
     pizza_places = []
 
     def __init__(self, game):
+        '''construtor classe pzza'''
         self.groups = game.all_sprites, game.pizza
         pg.sprite.Sprite.__init__(self, self.groups)
         self.image = game.pizza_img
@@ -234,13 +213,13 @@ class Pizza(pg.sprite.Sprite):
         num = random.randint(0, len(Pizza.pizza_places)-1)
         self.rect.center = Pizza.pizza_places[num]
         self.game = game
-
         self.time = 0
         self.reference = 0
 
 
 class Flecha(pg.sprite.Sprite):
     def __init__(self, game):
+        '''construtor classe flecha'''
         self.groups = game.all_sprites
         self.game = game
         pg.sprite.Sprite.__init__(self, self.groups)
@@ -249,6 +228,7 @@ class Flecha(pg.sprite.Sprite):
         self.rect.center = (100, 100)
 
     def update(self):
+        '''atualiza posição da flecha'''
         rot = (vec(self.game.pizza.sprites()[
                0].rect.center) - self.game.player.pos).angle_to(vec(1, 0))
         self.image = pg.transform.rotate(self.game.flecha_img, rot)
@@ -256,6 +236,7 @@ class Flecha(pg.sprite.Sprite):
 
 class Agua(pg.sprite.Sprite):
     def __init__(self, game, x, y, w, h):
+        '''construtor classe água'''
         self.groups = game.agua
         pg.sprite.Sprite.__init__(self, self.groups)
         self.game = game

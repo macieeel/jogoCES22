@@ -7,6 +7,7 @@ from tilemap import *
 
 
 def draw_time_bar(surf, x, y, pct):
+    '''desenha a barra de tempo'''
     if pct < 0:
         pct = 0
     BAR_LENGTH = 100
@@ -26,6 +27,7 @@ def draw_time_bar(surf, x, y, pct):
 
 class Game:
     def __init__(self):
+        '''construtor da classe Game'''
         pg.mixer.pre_init(44100, -16, 4, 2048)
         pg.init()
         self.screen = pg.display.set_mode((WIDTH, HEIGHT))
@@ -34,6 +36,7 @@ class Game:
         self.load_data()
 
     def draw_text(self, text, font_name, size, color, x, y, align="topleft"):
+        '''desenha texto na tela, recebendo qual esse texto, posição, fonte, cor e alinhamento'''
         font = pg.font.Font(font_name, size)
         text_surface = font.render(text, True, color)
         text_rect = text_surface.get_rect(**{align: (x, y)})
@@ -41,18 +44,19 @@ class Game:
         return text_rect
 
     def load_data(self):
-        # folders
-        game_folder = path.dirname(__file__)
+        '''carrega os dados para o jogo'''
+
+        # pastas
         game_folder = path.dirname(__file__)
         map_folder = path.join(game_folder, 'maps')
         img_folder = path.join(game_folder, 'img')
         sounds_folder = path.join(game_folder, 'sounds')
 
-        # fonts
+        # fontes
         self.hud_font = path.join(img_folder, 'Cabin.ttf')
         self.title_font = path.join(img_folder, 'lazer84.ttf')
 
-        # map
+        # mapa
         self.map = TiledMap(path.join(map_folder, 'mapav2.tmx'))
         self.map_img = self.map.make_map()
         self.map_rect = self.map_img.get_rect()
@@ -84,6 +88,7 @@ class Game:
         self.effects_sounds['moto'].set_volume(0.05)
 
     def new(self):
+        '''inicializa variáveis para um novo jogo'''
         self.effects_sounds['menu'].stop()
         self.time = 0
         self.go_message = ''
@@ -124,6 +129,7 @@ class Game:
         self.paused = False
 
     def run(self):
+        '''define o loop para rodar o jogo'''
         self.playing = True
         pg.mixer.music.play(loops=-1)
         while self.playing:
@@ -137,25 +143,27 @@ class Game:
             self.draw()
 
     def quit(self):
+        '''sai do jogo'''
         pg.quit()
         sys.exit()
 
     def update(self):
-        # update portion of the game loop
+        '''atualiza o jogo'''
         self.all_sprites.update()
         self.time += 1/60
         if round(self.time, 3) == MAX_TIME - 8:
-            print(self.time)
             self.effects_sounds['clock'].play()
         self.camera.update(self.player)
 
     def draw_grid(self):
+        '''desenha grid do mapa'''
         for x in range(0, WIDTH, TILESIZE):
             pg.draw.line(self.screen, LIGHTGREY, (x, 0), (x, HEIGHT))
         for y in range(0, HEIGHT, TILESIZE):
             pg.draw.line(self.screen, LIGHTGREY, (0, y), (WIDTH, y))
 
     def draw(self):
+        '''desenha mapa, hub e sprites'''
         self.screen.fill(BGCOLOR)
         self.draw_grid()
         self.screen.blit(self.map_img, self.camera.apply_rect(self.map_rect))
@@ -167,7 +175,7 @@ class Game:
         self.screen.blit(self.player.image, self.camera.apply(self.player))
         self.screen.blit(self.flecha.image, self.flecha.rect)
 
-        # Legendas
+        # Hub
         draw_time_bar(self.screen, 10, 10, (MAX_TIME - self.time) / MAX_TIME)
 
         self.draw_text('Pizzas entregues: {}'.format(self.player.qtepizzas), self.hud_font, 30, RED,
@@ -181,7 +189,7 @@ class Game:
         pg.display.flip()
 
     def events(self):
-        # catch all events here
+        '''capta os eventos'''
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 self.quit()
@@ -197,6 +205,7 @@ class Game:
                         self.paused = False
 
     def show_start_screen(self):
+        '''mostra a tela de início'''
         self.effects_sounds['menu'].play()
         self.screen.fill(BLACK)
         self.screen.blit(self.bg_img, (0, 0))
@@ -214,6 +223,7 @@ class Game:
         self.wait_for_click(start, instructions)
 
     def como_jogar_screen(self):
+        '''mostra a tela de instruções'''
         self.screen.fill(BLACK)
         d = 55
         h = 70
@@ -242,6 +252,7 @@ class Game:
         self.wait_for_click(start)
 
     def show_go_screen(self):
+        '''mostra a tela de game over'''
         pg.mixer.music.stop()
         self.effects_sounds['moto'].stop()
         self.effects_sounds['clock'].stop()
@@ -257,6 +268,7 @@ class Game:
         self.wait_for_key()
 
     def wait_for_key(self):
+        '''espera por tecla para executar função'''
         pg.event.wait()
         waiting = True
         while waiting:
@@ -275,6 +287,7 @@ class Game:
                         waiting = False
 
     def wait_for_click(self, button1, button2=False):
+        '''espera por clique nos botoes passados por parâmetro para executar função'''
         pg.event.wait()
         waiting = True
         while waiting:
@@ -296,9 +309,13 @@ class Game:
                             self.como_jogar_screen()
 
 
-# create the game object
+# cria o jogo
 g = Game()
+
+# mostra a tela de inicio
 g.show_start_screen()
+
+# inicia o loop do jogo
 while True:
     g.new()
     g.run()
