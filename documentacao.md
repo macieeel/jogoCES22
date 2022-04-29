@@ -31,7 +31,7 @@ Não dirija na água e não deixe a polícia encostar em você!
 
 Para rodar o jogo, execute o arquivo main.py.
 
-PASTAS:
+## PASTAS:
 
 ### img
 
@@ -50,7 +50,7 @@ Pasta com tudo que é relacionado ao som do jogo. Contém as músicas e efeitos 
 
 Pasta com todos os arquivos de imagem utilizados para rotular os prédios do mapa.
 
-# DESCRIÇÃO DOS ARQUIVOS .py
+## DESCRIÇÃO DOS ARQUIVOS .py
 
 ### main.py
 
