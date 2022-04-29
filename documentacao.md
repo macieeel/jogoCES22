@@ -50,7 +50,7 @@ Pasta com tudo que é relacionado ao som do jogo. Contém as músicas e efeitos 
 
 Pasta com todos os arquivos de imagem utilizados para rotular os prédios do mapa.
 
-DESCRIÇÃO DOS ARQUIVOS .py
+# DESCRIÇÃO DOS ARQUIVOS .py
 
 ### main.py
 
@@ -67,3 +67,4 @@ Definições de cores e configurações da tela, como tamanho e framerate do jog
 ### tilemap.py
 
 Possui a classe camera e a classe tilemap. Realiza a movimentação dos demais objetos com a movimentação do jogador. Função update da camera. Carregamento do tiled map para o jogo. Renderização do mapa dentro do pygame.
+
